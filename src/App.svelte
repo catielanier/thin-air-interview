@@ -4,13 +4,14 @@
   import type { Cart, Items } from "./utils/types";
   import {getStorageItem, setStorageItem} from "./utils/storage";
   import Item from "./lib/Item.svelte";
+  import CartItem from "./lib/CartItem.svelte";
 
   // Set initial states
   let items: Items = [];
   // Cart and subtotal can be derived from localStorage to be maintained across browsing sessions, will default to blank if never created
   // Must parse JSON for cart and integer for subtotal since all localStorage is stringified
   let cart: Cart = JSON.parse(getStorageItem('cart')!) ?? [];
-  let subtotal = parseInt(getStorageItem('subtotal')!, 10) ?? 0;
+  let subtotal = parseFloat(getStorageItem('subtotal')!) ?? 0;
   let cartIsUpdating: boolean = false;
 
   // Retrieve sale items from backend when app is mounted
@@ -55,6 +56,12 @@
   {#if cart.length}
     <div class="cart">
       <h2>Your Cart:</h2>
+      <div class="cart-items">
+        {#each cart as cartItem}
+          <CartItem item={cartItem} itemName={items.find(item => item.id === cartItem.id)?.description} />
+        {/each}
+      </div>
+      <p>Subtotal: ${subtotal.toFixed(2)}</p>
     </div>
   {/if}
 </main>
