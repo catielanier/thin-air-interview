@@ -1,0 +1,27 @@
+[
+  {
+    "id": 0,
+    "description": "Pink shirt",
+    "price": 8
+  },
+  {
+    "id": 1,
+    "description": "Red shirt",
+    "price": 8
+  },
+  {
+    "id": 2,
+    "description": "Purple shirt",
+    "price": 8
+  },
+  {
+    "id": 3,
+    "description": "Blue shirt",
+    "price": 8
+  },
+  {
+    "id": 4,
+    "description": "Black shirt",
+    "price": 8
+  }
+]
