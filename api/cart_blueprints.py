@@ -81,4 +81,4 @@ def add_to_cart() -> Response:
     price_of_cart: float = calculate_cart_total_price(cart)
 
     # Return updated cart and subtotal to frontend
-    return jsonify({"cart": cart, "price_of_cart": price_of_cart}), 201
+    return jsonify({"cart": cart, "subtotal": price_of_cart}), 201
