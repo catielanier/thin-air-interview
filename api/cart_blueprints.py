@@ -54,12 +54,12 @@ def add_to_cart() -> Response:
     # Retrieve data from the frontend
     put_data = request.get_json()
     cart: CartList = put_data.get("cart")
-    new_item: Cart = put_data.get("newItem")
+    cart_item: Cart = put_data.get("cartItem")
 
     # Check to see if the item is actually in the library (Prevent abuse)
     item_in_library: bool = False
     for item in items:
-        if item['id'] == new_item['id']:
+        if item['id'] == cart_item['id']:
             item_in_library = True
             break
     # If item doesn't exist, send an error to the frontend
@@ -69,13 +69,13 @@ def add_to_cart() -> Response:
     # Check to see if the item is in cart already; if so, mutate the quantity
     item_already_in_cart = False
     for item in cart:
-        if item['id'] == new_item['id']:
+        if item['id'] == cart_item['id']:
             item_already_in_cart = True
-            item['quantity'] += new_item['quantity']
+            item['quantity'] += cart_item['quantity']
             break
     # If item is not in cart, append it to cart
     if not item_already_in_cart:
-        cart.append(new_item)
+        cart.append(cart_item)
 
     # Pass cart forward to calculate the price (Do this on backend so that user can't name their own price)
     price_of_cart: float = calculate_cart_total_price(cart)

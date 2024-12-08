@@ -17,3 +17,8 @@ export interface CartResponse {
     cart: Cart;
     subtotal: number;
 }
+
+export interface CartItemMutation {
+    id: number;
+    quantity: number;
+}

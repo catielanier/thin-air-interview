@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import axios from 'axios';
   import type { Cart, Items } from "./utils/types";
-  import { getStorageItem } from "./utils/storage";
+  import {getStorageItem, setStorageItem} from "./utils/storage";
   import Item from "./lib/Item.svelte";
 
   // Set initial states
@@ -18,6 +18,24 @@
       items = data;
     });
   });
+
+  const updateCartStorage = (): void => {
+    setStorageItem('cart', JSON.stringify(cart));
+    setStorageItem('subtotal', subtotal.toString());
+  }
+
+  const updateCart = (itemId: number, quantity: number): void => {
+    const cartItem = {
+      id: itemId,
+      quantity
+    }
+    axios.put('/api/v1/cart', ({cart, cartItem}))
+      .then(({ data }): void => {
+        cart = data.cart;
+        subtotal = data.subtotal;
+      })
+      .finally(updateCartStorage);
+  }
 </script>
 
 <main>
