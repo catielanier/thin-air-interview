@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import axios from 'axios';
-  import type { Cart, Items } from "./utils/types";
+  import type {Cart, CartItemMutation, Items} from "./utils/types";
   import {getStorageItem, setStorageItem} from "./utils/storage";
   import Item from "./lib/Item.svelte";
   import CartItem from "./lib/CartItem.svelte";
@@ -29,17 +29,22 @@
   }
 
   const updateCart = (itemId: number, quantity: number): void => {
+    // Disable increment buttons
     cartIsUpdating = true;
-    const cartItem = {
+    // Format the incremented item to a format backend will be able to read
+    const cartItem: CartItemMutation = {
       id: itemId,
       quantity
     }
+    // Pass original cart and incremented item to backend
     axios.put('/api/v1/cart/update', ({ cart, cartItem }))
       .then(({ data }): void => {
+        // Update state
         cart = data.cart;
         subtotal = data.subtotal;
       })
       .finally(() => {
+        // Update localStorage then re-enable quantity increment buttons, make sure this happens after state is changed to avoid any synchronicity issues
         updateCartStorage();
         cartIsUpdating = false;
       });
@@ -67,11 +72,6 @@
           <CartItem item={cartItem} itemName={items.find(item => item.id === cartItem.id)?.description} />
         {/each}
       </div>
-      <!--
-       Don't need to pass subtotal to child, just render directly here,
-       if we were doing Sales Taxes, we would pass to child to handle
-       rendering each with less nesting
-      -->
       <!-- TODO: Create child component to show subtotal, taxes, and grand total -->
       <p>Subtotal: ${subtotal.toFixed(2)}</p>
     </div>
