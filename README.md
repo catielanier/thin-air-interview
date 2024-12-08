@@ -17,6 +17,8 @@ Please input the following commands in the project root directory:
 - `pip install -r Requirements.txt`
 - `python server.py`
 
+**NOTE:** If you have installed Python v3 but are receiving an error in terminal that states `command not found`, replace `python` with `python3` in all commands. This notoriously happens on Windows and macOS devices, as well as some Linux distributions.
+
 ## Initializing frontend
 
 Please input the following commands in the project root directory:
