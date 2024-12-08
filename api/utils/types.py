@@ -6,3 +6,9 @@ class Shirt(TypedDict):
     price: int
 
 ShirtList = List[Shirt]
+
+class Cart(TypedDict):
+    id: int
+    quantity: int
+
+CartList = List[Cart]
