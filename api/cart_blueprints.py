@@ -49,7 +49,7 @@ def calculate_cart_total_price(cart: CartList) -> float:
     return total_price
 
 
-@cart_blueprint.route("/update", methods=["POST"])
+@cart_blueprint.route("/update", methods=["PUT"])
 def add_to_cart() -> Response:
     # Retrieve data from the frontend
     put_data = request.get_json()
