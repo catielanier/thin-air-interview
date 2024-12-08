@@ -3,6 +3,7 @@
   import axios from 'axios';
   import type { Cart, Items } from "./utils/types";
   import { getStorageItem } from "./utils/storage";
+  import Item from "./lib/Item.svelte";
 
   // Set initial states
   let items: Items = [];
@@ -21,6 +22,13 @@
 
 <main>
   <h1>Holy Shirt!</h1>
+  {#if items.length}
+    <div class="items">
+      {#each items as item}
+        <Item {item} />
+      {/each}
+    </div>
+  {/if}
 </main>
 
 <style>
