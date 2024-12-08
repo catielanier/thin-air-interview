@@ -11,6 +11,7 @@
   // Must parse JSON for cart and integer for subtotal since all localStorage is stringified
   let cart: Cart = JSON.parse(getStorageItem('cart')!) ?? [];
   let subtotal = parseInt(getStorageItem('subtotal')!, 10) ?? 0;
+  let cartIsUpdating: boolean = false;
 
   // Retrieve sale items from backend when app is mounted
   onMount((): void => {
@@ -25,16 +26,20 @@
   }
 
   const updateCart = (itemId: number, quantity: number): void => {
+    cartIsUpdating = true;
     const cartItem = {
       id: itemId,
       quantity
     }
-    axios.put('/api/v1/cart', ({cart, cartItem}))
+    axios.put('/api/v1/cart/update', ({ cart, cartItem }))
       .then(({ data }): void => {
         cart = data.cart;
         subtotal = data.subtotal;
       })
-      .finally(updateCartStorage);
+      .finally(() => {
+        updateCartStorage();
+        cartIsUpdating = false;
+      });
   }
 </script>
 
@@ -43,8 +48,13 @@
   {#if items.length}
     <div class="items">
       {#each items as item}
-        <Item {item} />
+        <Item {item} {updateCart} {cartIsUpdating} />
       {/each}
+    </div>
+  {/if}
+  {#if cart.length}
+    <div class="cart">
+      <h2>Your Cart:</h2>
     </div>
   {/if}
 </main>
