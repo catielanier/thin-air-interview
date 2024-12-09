@@ -1,6 +1,6 @@
 # Catie Lanier - Thin Air Labs Technical Interview
 
-This is my solution to the technical interview for Thin Air Labs, using Python + Flask with static typings on the backend, and Svelte + Typescript on the frontend.
+This is my solution to the technical interview for Thin Air Labs, using Python + Flask with static typings on the backend, and Svelte + Typescript on the frontend. Frontend testing handled by Vitest, Python testing handled by unittest.
 
 ## Required technologies
 
@@ -32,4 +32,4 @@ Please input the following commands in the project root directory:
 
 ## Testing frontend
 
-- Complete later
+- `yarn test`
