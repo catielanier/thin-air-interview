@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [svelte()],
   server: {
     proxy: {
@@ -13,4 +13,15 @@ export default defineConfig({
       },
     },
   },
-})
+  resolve: {
+    conditions: mode === 'test' ? ['browser'] : [],
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./setupTests.ts'],
+    deps: {
+      interopDefault: false
+    }
+  }
+}))
