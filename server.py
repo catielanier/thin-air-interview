@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from api.cart_blueprints import cart_blueprint
-from api.item_blueprint import item_blueprint
+from api.item_blueprints import item_blueprint
 
 DEBUG: bool = True
 
