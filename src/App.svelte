@@ -1,28 +1,29 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import axios from 'axios';
-  import type {Cart, CartItemMutation, Items} from "./utils/types";
-  import {getStorageItem, setStorageItem} from "./utils/storage";
+  import axios from "axios";
   import Item from "./lib/Item.svelte";
   import CartItem from "./lib/CartItem.svelte";
+  import type {Cart, CartItemMutation, ProductItems} from "./utils/types";
+  import {getStorageItem, setStorageItem} from "./utils/storage";
 
-  // Set initial states
-  let items: Items = [];
-  // Cart and subtotal can be derived from localStorage to be maintained across browsing sessions, will default to blank if never created
-  // Must parse JSON for cart and float for subtotal since all localStorage is stringified
-  // Float required since we won't always have whole numbers
-  let cart: Cart = JSON.parse(getStorageItem('cart')!) ?? [];
-  let subtotal = parseFloat(getStorageItem('subtotal')!) ?? 0;
+  let cart: Cart = [];
+  let subtotal: number = 0;
+  let items: ProductItems = [];
   let cartIsUpdating: boolean = false;
 
-  // Retrieve sale items from backend when app is mounted
-  onMount((): void => {
-    axios.get('/api/v1/items').then(({ data }): void => {
-      items = data;
-    });
+  onMount(() => {
+    const cartFromStorage: string | null = getStorageItem("cart");
+    const subtotalFromStorage: string | null = getStorageItem("subtotal");
+    cart = cartFromStorage ? JSON.parse(cartFromStorage) : [];
+    subtotal = subtotalFromStorage ? parseFloat(subtotalFromStorage) : 0;
+
+    axios.get("/api/v1/items")
+            .then(({ data }) => {
+              items = data;
+            })
+            .catch(err => console.error(err));
   });
 
-  // Standalone function to ensure cart storage is updated
   const updateCartStorage = (): void => {
     setStorageItem('cart', JSON.stringify(cart));
     setStorageItem('subtotal', subtotal.toString());
@@ -37,17 +38,19 @@
       quantity
     }
     // Pass original cart and incremented item to backend
-    axios.put('/api/v1/cart/update', ({ cart, cartItem }))
-      .then(({ data }): void => {
-        // Update state
-        cart = data.cart;
-        subtotal = data.subtotal;
-      })
-      .finally(() => {
-        // Update localStorage then re-enable quantity increment buttons, make sure this happens after state is changed to avoid any synchronicity issues
-        updateCartStorage();
-        cartIsUpdating = false;
-      });
+    axios
+            .put('/api/v1/cart/update', ({ cart, cartItem }))
+            .then(({ data }): void => {
+      // Update state
+      cart = data.cart;
+      subtotal = data.subtotal;
+    })
+  .finally(() => {
+      // Update localStorage then re-enable quantity increment buttons, make sure this happens after state is changed to avoid any synchronicity issues
+      updateCartStorage();
+      cartIsUpdating = false;
+    })
+            .catch(err => console.error(err));
   }
 </script>
 
@@ -77,21 +80,3 @@
     </div>
   {/if}
 </main>
-
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
-</style>

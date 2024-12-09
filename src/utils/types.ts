@@ -3,13 +3,13 @@ export interface CartItem {
     quantity: number;
 }
 
-export interface Item {
+export interface ProductItem {
     id: number;
     description: string;
     price: number;
 }
 
-export type Items = Item[];
+export type ProductItems = ProductItem[];
 
 export type Cart = CartItem[];
 
