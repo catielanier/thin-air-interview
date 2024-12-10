@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   resolve: {
-    conditions: mode === 'test' ? ['browser'] : [],
+    conditions: mode === 'test' ? ['browser'] : ['browser', 'module'],
   },
   test: {
     globals: true,
