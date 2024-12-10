@@ -80,3 +80,132 @@
     </div>
   {/if}
 </main>
+
+<style>
+  /* Root Variables for Theme Colors */
+  :root {
+    --primary-color: #6c63ff; /* Stylish purple */
+    --secondary-color: #ff6b6b; /* Soft coral red */
+    --background-color: #f5f7fa; /* Soft off-white */
+    --card-bg-color: #ffffff; /* White for cards */
+    --text-color: #333333; /* Dark gray for text */
+    --muted-text-color: #666666; /* Muted text for secondary info */
+    --accent-color: #4caf50; /* Green accent */
+    --cart-bg-color: #e8f5e9; /* Light green for cart */
+  }
+
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+
+  main {
+    padding: 2rem;
+  }
+
+  h1 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .items > * {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .items > *:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .cart {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--cart-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .cart h2 {
+    color: var(--secondary-color);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cart-items > * {
+    padding: 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+
+  .cart-items > *:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+
+  .cart-items > *:nth-child(even) {
+    background-color: #e7e7e7;
+  }
+
+  .cart-items > *:hover {
+    background-color: var(--accent-color);
+    color: white;
+  }
+
+  p {
+    text-align: right;
+    font-weight: bold;
+    color: var(--muted-text-color);
+    margin-top: 1rem;
+  }
+
+  p span {
+    color: var(--primary-color);
+  }
+
+  /* Button Styles */
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  button:disabled {
+    background-color: #d1d1d1;
+    cursor: not-allowed;
+  }
+
+  button:hover:not(:disabled) {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+  }
+
+  button:active {
+    transform: translateY(1px);
+  }
+</style>
