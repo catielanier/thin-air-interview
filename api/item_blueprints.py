@@ -1,5 +1,3 @@
-import json
-import os
 from flask import Blueprint, request, jsonify, Response
 
 from api.utils.types import ShirtList
