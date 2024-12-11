@@ -28,7 +28,8 @@ Please input the following commands in the project root directory:
 
 ## Testing backend
 
-- Complete later
+- `source env/bin/activate` (If Python source not already activated, see Initializing backend above)
+- `python -m unittest discover -p "*_test.py"`
 
 ## Testing frontend
 
